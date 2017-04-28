@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.cart.mapper.DiscountMapper">
+    <select id="selectAllDiscount"  resultMap="discount">
+        SELECT
+        id,barcode,code,description,updatetime
+        FROM
+        discount
+    </select>
+
+    <resultMap id="discount" type="com.shopping.cart.model.Discount">
+        <id property="id" column="id"/>
+        <result property="barCode" column="barcode"/>
+        <result property="code" column="code"/>
+        <result property="description" column="description"/>
+        <result property="updateTime" column="updatetime"/>
+    </resultMap>
+
+    <select id="selectDiscountById" parameterType="java.lang.Long" resultMap="discount">
+        SELECT
+        id,barcode,code,description,updatetime
+        FROM
+        discount
+        WHERE
+        id = #{id}
+    </select>
+
+    <select id="selectDiscountByBarCode" parameterType="java.lang.String" resultMap="discount">
+        SELECT
+        id,barcode,code,description,updatetime
+        FROM
+        discount
+        WHERE
+        barcode = #{barCode}
+    </select>
+    <update id="updateDiscount" parameterType="com.shopping.cart.model.Discount">
+        UPDATE
+        discount
+        <set>
+            <if test="barCode!=null">barcode=#{barCode},</if>
+            <if test="code!=null">code=#{code},</if>
+            <if test="description!=null">description=#{description}</if>
+        </set>
+        WHERE
+        id=#{id}
+    </update>
+
+    <insert id="insertDiscount" parameterType="com.shopping.cart.model.Discount">
+        INSERT INTO discount(
+        barcode,code,description
+        )
+        VALUES (
+        #{barCode},
+        #{code},
+        #{description}
+        )
+    </insert>
+
+    <delete id="deleteDiscount" parameterType="java.lang.Long">
+        DELETE FROM discount
+        WHERE
+        id=#{id}
+    </delete>
+
+</mapper>

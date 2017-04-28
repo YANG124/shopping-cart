@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.cart.mapper.GoodsMapper">
+    <select id="selectAllGoods"  resultMap="goods">
+        SELECT
+        id,barcode,name,price,updatetime
+        FROM
+        goods
+    </select>
+
+    <resultMap id="goods" type="com.shopping.cart.model.Goods">
+        <id property="id" column="id"/>
+        <result property="barCode" column="barcode"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="updateTime" column="updatetime"/>
+    </resultMap>
+
+    <select id="selectGoodsById" parameterType="java.lang.Long" resultMap="goods">
+        SELECT
+        id,barcode,name,price,updatetime
+        FROM
+        goods
+        WHERE
+        id = #{id}
+    </select>
+
+    <select id="selectGoodsByBarCode" parameterType="java.lang.String" resultMap="goods">
+        SELECT
+        id,barcode,name,price,updatetime
+        FROM
+        goods
+        WHERE
+        barcode = #{barCode}
+    </select>
+    <update id="updateGoods" parameterType="com.shopping.cart.model.Goods">
+        UPDATE
+        goods
+        <set>
+            <if test="barCode!=null">barcode=#{barCode},</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="price!=null">price=#{price}</if>
+        </set>
+        WHERE
+        id=#{id}
+    </update>
+
+    <insert id="insertGoods" parameterType="com.shopping.cart.model.Goods">
+        INSERT INTO goods(
+        barcode,name,price,updatetime
+        )
+        VALUES (
+        #{barCode},
+        #{name},
+        #{price},
+        FROM_UNIXTIME(#{clickTime})
+        )
+    </insert>
+
+    <delete id="deleteGoodsById" parameterType="java.lang.Long">
+        DELETE FROM goods
+        WHERE
+        id=#{id}
+    </delete>
+
+</mapper>

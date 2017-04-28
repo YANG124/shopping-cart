@@ -1,0 +1,29 @@
+server:
+    port: 9527
+logging:
+    level: DEBUG
+spring:
+    profiles:
+        active: development
+    application:
+            name: shopping-cart
+    datasource:
+          url: jdbc:mysql://localhost:3306/shopping_cart?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+          username: root
+          password: 123456
+          driverClassName: com.mysql.jdbc.Driver
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: com.shopping.cart.model
+---
+spring:
+    profiles: development
+    datasource:
+        url: jdbc:mysql://localhost:3306/shopping_cart?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+        username: root
+        password: 123456
+        test-while-idle: true
+        test-on-connect: true
+        testOnBorrow: true
+        validation-query: select 1
+        driverClassName: com.mysql.jdbc.Driver
